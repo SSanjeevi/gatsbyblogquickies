@@ -57,14 +57,13 @@ typings/
 # dotenv environment variables file
 .env
 
-.cache/
-.DS_Store
-public/
-yarn-error.log
+# build folder
+public
 
-# editors
-.idea/
-.vscode
+# gatsby cache folder
+.cache
 
-# other
-report/
+# contentful config file
+.contentful.json
+# Local Netlify folder
+.netlify

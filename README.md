@@ -1,136 +1,64 @@
-# HeroBlog
+# Contentful Gatsby Starter Blog
 
-A [GatsbyJS](https://www.gatsbyjs.org/) blog starter. <br /><br />
+Create a [Gatsby](http://gatsbyjs.com/) blog powered by [Contentful](https://www.contentful.com). This is a simplified version of the [Gatsby Contentful Starter](https://github.com/contentful-userland/gatsby-contentful-starter) which is maintained by our Community.
 
-[![GitHub tag](https://img.shields.io/github/tag/greglobinski/gatsby-starter-hero-blog.svg)](https://github.com/greglobinski/gatsby-starter-personal-blog)
-[![GitHub stars](https://img.shields.io/github/stars/greglobinski/gatsby-starter-hero-blog.svg)](https://github.com/greglobinski/gatsby-starter-personal-blog/stargazers)
-[![GitHub license](https://img.shields.io/github/license/greglobinski/gatsby-starter-hero-blog.svg)](https://github.com/greglobinski/gatsby-starter-personal-blog/blob/master/LICENSE)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-![GitHub contributors](https://img.shields.io/github/contributors/greglobinski/gatsby-starter-hero-blog.svg)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/greglobinski/gatsby-starter-hero-blog.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fgreglobinski%2Fgatsby-starter-hero-blog)
+![The index page of the starter blog](https://rawgit.com/contentful-userland/gatsby-contentful-starter/master/screenshot.jpg "The index page of the starter blog")
 
-  <br />
+Static sites are scalable, secure and have very little required maintenance. They come with a drawback though. Not everybody feels good editing files, building a project and uploading it somewhere. This is where Contentful comes into play.
 
-![](static/screens/gatsby-starter-hero-blog.gif) <br />
+With Contentful and Gatsby you can connect your favorite static site generator with an API that provides an easy to use interface for people writing content and automate the publishing using services like [Travis CI](https://travis-ci.org/) or [Netlify](https://www.netlify.com/).
 
-  <br />
+## Features
 
-See the starter in action » [demo website](https://gatsby-starter-hero-blog.greglobinski.com/) <br />For more information visit » [dev.greglobinski.com/gatsby-starter-hero-blog](https://dev.greglobinski.com/gatsby-starter-hero-blog/)
-
-## Description
-
-A ready to use, easy to customize 'like theme' starter with a 'Hero' section on the home page.
-
-The starter was initially built for Gatsby v1. Now, thanks to [@mohsenkhanpour](https://github.com/mohsenkhanpour) it's [upgraded](https://github.com/greglobinski/gatsby-starter-hero-blog/issues/32) to Gatsby v2. Thank you Mohsen :)
-
-The original version of the starter is preserved as the branch `gatsby-v1`.
-
-## Features:
-
-- Easy editable content in **Markdown** files (posts, pages and parts)
-- **CSS** with `styled-jsx` and `PostCSS`
-- **SEO** (sitemap generation, robot.txt, meta and OpenGraph Tags)
-- **Social** sharing (Twitter, Facebook, Google, LinkedIn)
-- **Comments** (Facebook)
-- **Images** lazy loading and `webp` support (gatsby-image)
-- Post **categories** (category based post list)
-- Full text **searching** (Algolia)
-- **Contact** form (Netlify form handling)
-- Form elements and validation with `ant-design`
-- **RSS** feed
-- 100% **PWA** (manifest.webmanifest, offline support, favicons)
-- Google **Analytics**
-- App **favicons** generator (node script)
-- Easy customizable base **styles** via `theme` object generated from `yaml` file (fonts, colors, sizes)
-- React **v.16.3** (gatsby-plugin-react-next)
-- **Components** lazy loading (social sharing)
-- **ESLint** (google config)
-- **Prettier** code styling
-- Webpack `BundleAnalyzerPlugin`
-- **Gravatar** image (optional) instead local Avatar/Logo image
-
-## Prerequisites
-
-If you do not have Gatsby Cli installed yet, do it first.
-
-```text
-npm install --global gatsby-cli
-```
-
-More information on [GatsbyJS.org](https://www.gatsbyjs.org/tutorial/part-one)
+- Simple content model and structure. Easy to adjust to your needs.
+- Use the [synchronization feature](https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/synchronization) of our [Delivery API](https://www.contentful.com/developers/docs/references/content-delivery-api/).
+- Responsive/adaptive images via [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) and our [Images API](https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/synchronization/initial-synchronization-of-entries-of-a-specific-content-type).
 
 ## Getting started
 
-Install the starter using Gatsby Cli `gatsby new` command.
+See our [official Contentful getting started guide](https://www.contentful.com/developers/docs/tutorials/general/get-started/).
 
-```text
-gatsby new [NEW_SITE_DIRECTORY_FOR_YOUR_BLOG] https://github.com/greglobinski/gatsby-starter-hero-blog.git
+### Get the source code and install dependencies.
+
+```
+$ git clone https://github.com/contentful/starter-gatsby-blog.git
+$ npm install
 ```
 
-Go into the newly created directory and run
+Or use the [Gatsby CLI](https://www.npmjs.com/package/gatsby-cli).
 
-```text
-gatsby develop
+```
+$ gatsby new contentful-starter-blog https://github.com/contentful/starter-gatsby-blog/
 ```
 
-to hot-serve your website on http://localhost:8000 or
+### Set up of the needed content model and create a configuration file
 
-```text
-gatsby build
-```
+This project comes with a Contentful setup command `npm run setup`.
 
-to create static site ready to host (/public).
+This command will ask you for a space ID, and access tokens for the Contentful Management and Delivery API and then import the needed content model into the space you define and write a config file (`./.contentful.json`).
 
-##### External services
+`npm run setup` automates that for you but if you want to do it yourself rename `.contentful.json.sample` to `.contentful.json` and add your configuration in this file.
 
-The starter uses external services for some functions: comments, searching, analytics. To use them you have to secure some access data. All services are free to use or have generous free tiers big enough for a personal blog.
+## Crucial Commands
 
-Create an `.env` file like below in the root folder. Change `...` placeholders with real data.
-<br />By default, your `.env` file will be ignored by git. Remove `.env` from `.gitignore` in order to be able to push the file to your repository.
+### `npm run dev`
 
-```text
-GOOGLE_ANALYTICS_ID=...
-ALGOLIA_APP_ID=...
-ALGOLIA_SEARCH_ONLY_API_KEY=...
-ALGOLIA_ADMIN_API_KEY=...
-ALGOLIA_INDEX_NAME=...
-FB_APP_ID=...
-```
+Run the project locally with live reload in development mode.
 
-### Instructions & tutorials
+### `npm run build`
 
-- [How to install, setup and add new content to a Blog starter](https://dev.greglobinski.com/install-blog-starter/)
-- [Setup Algolia account for your GatsbyJS blog](https://dev.greglobinski.com/setup-algolia-account/)
-- More articles at [Front-end web development with Greg](https://dev.greglobinski.com/)
+Run a production build into `./public`. The result is ready to be put on any static hosting you prefer.
 
-## Windows users
+### `npm run serve`
 
-You should take a look at this: [Gatsby on Windows](https://www.gatsbyjs.org/docs/gatsby-on-windows/)
+Spin up a production-ready server with your blog. Don't forget to build your page beforehand.
 
-## Authors
+## Deployment
 
-- Greg Lobinski [@greglobinski](https://github.com/greglobinski)
+See the [official Contentful getting started guide](https://www.contentful.com/developers/docs/tutorials/general/get-started/).
 
-See also the list of [contributors](https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors) who participated in this project.
+## Contribution
 
-## Contributing
+Feel free to open pull requests to fix bugs. If you want to add features, please have a look at the [original version](https://github.com/contentful-userland/gatsby-contentful-starter). It is always open to contributions and pull requests.
 
-- Fork the repo
-- Create your feature branch (git checkout -b feature/fooBar)
-- Commit your changes (git commit -am 'Add some fooBar')
-- Push to the branch (git push origin feature/fooBar)
-- Create a new Pull Request
-
-## Licence
-
-MIT License
-
-Copyright (c) 2017 gatsbyjs <br />Copyright (c) 2018 greg lobinski
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+You can learn more about how Contentful userland is organized by visiting [our about repository](https://github.com/contentful-userland/about).
