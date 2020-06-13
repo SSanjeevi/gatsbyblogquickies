@@ -1,86 +1,130 @@
-import React from 'react'
-import { graphql } from 'gatsby'
-import get from 'lodash/get'
-import Helmet from 'react-helmet'
-import Hero from '../components/hero'
-import Layout from '../components/layout'
-import ArticlePreview from '../components/article-preview'
+import PropTypes from "prop-types";
+import React from "react";
+import { graphql } from "gatsby";
+import { ThemeContext } from "../layouts";
+import Blog from "../components/Blog";
+import Hero from "../components/Hero";
+import Seo from "../components/Seo";
 
-class RootIndex extends React.Component {
+class IndexPage extends React.Component {
+  separator = React.createRef();
+
+  scrollToContent = e => {
+    this.separator.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
+
   render() {
-    const siteTitle = get(this, 'props.data.site.siteMetadata.title')
-    const posts = get(this, 'props.data.allContentfulBlogPost.edges')
-    const [author] = get(this, 'props.data.allContentfulPerson.edges')
+    const {
+      data: {
+        posts: { edges: posts = [] },
+        bgDesktop: {
+          resize: { src: desktop }
+        },
+        bgTablet: {
+          resize: { src: tablet }
+        },
+        bgMobile: {
+          resize: { src: mobile }
+        },
+        site: {
+          siteMetadata: { facebook }
+        }
+      }
+    } = this.props;
+
+    const backgrounds = {
+      desktop,
+      tablet,
+      mobile
+    };
 
     return (
-      <Layout location={this.props.location}>
-        <div style={{ background: '#fff' }}>
-          <Helmet title={siteTitle} />
-          <Hero data={author.node} />
-          <div className="wrapper">
-            <h2 className="section-headline">Recent articles</h2>
-            <ul className="article-list">
-              {posts.map(({ node }) => {
-                return (
-                  <li key={node.slug}>
-                    <ArticlePreview article={node} />
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </div>
-      </Layout>
-    )
+      <React.Fragment>
+        <ThemeContext.Consumer>
+          {theme => (
+            <Hero scrollToContent={this.scrollToContent} backgrounds={backgrounds} theme={theme} />
+          )}
+        </ThemeContext.Consumer>
+
+        <hr ref={this.separator} />
+
+        <ThemeContext.Consumer>
+          {theme => <Blog posts={posts} theme={theme} />}
+        </ThemeContext.Consumer>
+
+        <Seo facebook={facebook} />
+
+        <style jsx>{`
+          hr {
+            margin: 0;
+            border: 0;
+          }
+        `}</style>
+      </React.Fragment>
+    );
   }
 }
 
-export default RootIndex
+IndexPage.propTypes = {
+  data: PropTypes.object.isRequired
+};
 
-export const pageQuery = graphql`
-  query HomeQuery {
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
-      edges {
-        node {
-          title
-          slug
-          publishDate(formatString: "MMMM Do, YYYY")
-          tags
-          heroImage {
-            fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
-              ...GatsbyContentfulFluid_tracedSVG
-            }
-          }
-          description {
-            childMarkdownRemark {
-              html
-            }
-          }
-        }
-      }
-    }
-    allContentfulPerson(
-      filter: { contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" } }
+export default IndexPage;
+
+//eslint-disable-next-line no-undef
+export const query = graphql`
+  query IndexQuery {
+    posts: allMarkdownRemark(
+      filter: { fileAbsolutePath: { regex: "//posts/[0-9]+.*--/" } }
+      sort: { fields: [fields___prefix], order: DESC }
     ) {
       edges {
         node {
-          name
-          shortBio {
-            shortBio
+          excerpt
+          fields {
+            slug
+            prefix
           }
-          title
-          heroImage: image {
-            fluid(
-              maxWidth: 1180
-              maxHeight: 480
-              resizingBehavior: PAD
-              background: "rgb:000000"
-            ) {
-              ...GatsbyContentfulFluid_tracedSVG
+          frontmatter {
+            title
+            category
+            author
+            cover {
+              children {
+                ... on ImageSharp {
+                  fluid(maxWidth: 800, maxHeight: 360) {
+                    ...GatsbyImageSharpFluid_withWebp
+                  }
+                }
+              }
             }
           }
         }
       }
     }
+    site {
+      siteMetadata {
+        facebook {
+          appId
+        }
+      }
+    }
+    bgDesktop: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
+      resize(width: 1200, quality: 90, cropFocus: CENTER) {
+        src
+      }
+    }
+    bgTablet: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
+      resize(width: 800, height: 1100, quality: 90, cropFocus: CENTER) {
+        src
+      }
+    }
+    bgMobile: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
+      resize(width: 450, height: 850, quality: 90, cropFocus: CENTER) {
+        src
+      }
+    }
   }
-`
+`;
+
+//hero-background
